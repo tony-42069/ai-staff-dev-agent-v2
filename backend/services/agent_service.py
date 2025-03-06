@@ -2,6 +2,7 @@ import json
 import logging
 from typing import List, Dict, Any, Optional
 from sqlalchemy.orm import Session
+from datetime import datetime
 import json
 
 from backend.db.models import Agent
@@ -39,16 +40,35 @@ class AgentService:
         db.commit()
         db.refresh(db_agent)
         
+        # Fix data format before returning
+        if isinstance(db_agent.capabilities, str):
+            db_agent.capabilities = json.loads(db_agent.capabilities)
+        if isinstance(db_agent.created_at, datetime):
+            db_agent.created_at = db_agent.created_at.isoformat()
+        
         logger.info(f"Created agent in database: {db_agent.id} - {db_agent.name}")
         return db_agent
     
     def get_agents(self, db: Session) -> List[Agent]:
         """Get all agents from the database"""
-        return db.query(Agent).filter(Agent.is_active == True).all()
+        agents = db.query(Agent).filter(Agent.is_active == True).all()
+        # Process each agent to ensure correct data types
+        for agent in agents:
+            if isinstance(agent.capabilities, str):
+                agent.capabilities = json.loads(agent.capabilities)
+            if isinstance(agent.created_at, datetime):
+                agent.created_at = agent.created_at.isoformat()
+        return agents
     
     def get_agent(self, db: Session, agent_id: int) -> Optional[Agent]:
         """Get a specific agent by ID"""
-        return db.query(Agent).filter(Agent.id == agent_id, Agent.is_active == True).first()
+        agent = db.query(Agent).filter(Agent.id == agent_id, Agent.is_active == True).first()
+        if agent:
+            if isinstance(agent.capabilities, str):
+                agent.capabilities = json.loads(agent.capabilities)
+            if isinstance(agent.created_at, datetime):
+                agent.created_at = agent.created_at.isoformat()
+        return agent
     
     def delete_agent(self, db: Session, agent_id: int) -> bool:
         """

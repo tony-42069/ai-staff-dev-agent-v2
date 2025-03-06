@@ -218,6 +218,4 @@ If you have any questions or need support, please reach out to:
 
 ---
 
-<p align="center">
-  Made with ❤️ by Your Organization - Transforming the future of work with AI
-</p>
+
