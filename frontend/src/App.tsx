@@ -7,12 +7,10 @@ import Header from './components/layout/Header';
 import Sidebar from './components/layout/Sidebar';
 
 // Page components
+import DashboardPage from './pages/DashboardPage';
 import AgentsPage from './pages/AgentsPage';
 import MarketplacePage from './pages/MarketplacePage';
-
-// Placeholder components for other routes
-const Dashboard = () => <Box p={8}>Dashboard coming soon</Box>;
-const Settings = () => <Box p={8}>Settings coming soon</Box>;
+import SettingsPage from './pages/SettingsPage';
 
 function App() {
   return (
@@ -22,10 +20,11 @@ function App() {
         <Sidebar />
         <Box as="main" pl={64} pt={16}>
           <Routes>
-            <Route path="/" element={<Navigate to="/agents" replace />} />
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/agents" element={<AgentsPage />} />
             <Route path="/marketplace" element={<MarketplacePage />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route path="/settings" element={<SettingsPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Box>
