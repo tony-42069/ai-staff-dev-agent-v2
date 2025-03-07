@@ -45,15 +45,14 @@ const NavItem: React.FC<NavItemProps> = ({ to, icon, children }) => {
         }}
         transition="all 0.2s"
       >
-        <Icon
-          fontSize="16"
-          _groupHover={{
+        {React.cloneElement(icon, {
+          fontSize: "16",
+          color: isActive ? activeColor : undefined,
+          _groupHover: {
             color: activeColor,
-          }}
-          as={icon.type}
-          color={isActive ? activeColor : undefined}
-          mr={3}
-        />
+          },
+          mr: 3
+        })}
         <Text>{children}</Text>
       </Flex>
     </Link>

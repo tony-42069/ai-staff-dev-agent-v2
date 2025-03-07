@@ -7,7 +7,6 @@ import {
   HStack,
   IconButton,
   Tag,
-  TagLeftIcon,
   TagLabel,
   Flex,
   useColorModeValue,

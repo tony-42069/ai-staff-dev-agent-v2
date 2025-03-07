@@ -1,4 +1,4 @@
-import React from 'react';
+// Using JSX without needing React import (new JSX Transform)
 import { ChakraProvider, Box } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 

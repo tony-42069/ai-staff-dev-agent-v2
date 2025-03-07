@@ -175,7 +175,7 @@ const AgentForm: React.FC<AgentFormProps> = ({ onAgentCreated }) => {
           type="submit"
           colorScheme="blue"
           isLoading={isSubmitting}
-          isFullWidth
+          width="full"
         >
           Create Agent
         </Button>
@@ -184,4 +184,4 @@ const AgentForm: React.FC<AgentFormProps> = ({ onAgentCreated }) => {
   );
 };
 
-export default AgentForm; 
+export default AgentForm;
