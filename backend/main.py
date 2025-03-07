@@ -5,7 +5,7 @@ import uvicorn
 from sqlalchemy.orm import Session
 
 from backend.db.models import create_tables, get_db
-from backend.api import agents
+from backend.api import agents, marketplace
 
 # Configure logging
 logging.basicConfig(
@@ -33,6 +33,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(agents.router, prefix="/api/agents", tags=["agents"])
+app.include_router(marketplace.router, prefix="/api", tags=["marketplace"])
 
 # Health check endpoint
 @app.get("/health", tags=["health"])

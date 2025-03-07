@@ -8,11 +8,11 @@ import Sidebar from './components/layout/Sidebar';
 
 // Page components
 import AgentsPage from './pages/AgentsPage';
+import MarketplacePage from './pages/MarketplacePage';
 
 // Placeholder components for other routes
-const Dashboard = () => <Box p={8} pt={24} pl={72}>Dashboard coming soon</Box>;
-const Marketplace = () => <Box p={8} pt={24} pl={72}>Marketplace coming soon</Box>;
-const Settings = () => <Box p={8} pt={24} pl={72}>Settings coming soon</Box>;
+const Dashboard = () => <Box p={8}>Dashboard coming soon</Box>;
+const Settings = () => <Box p={8}>Settings coming soon</Box>;
 
 function App() {
   return (
@@ -20,11 +20,11 @@ function App() {
       <Router>
         <Header />
         <Sidebar />
-        <Box as="main">
+        <Box as="main" pl={64} pt={16}>
           <Routes>
             <Route path="/" element={<Navigate to="/agents" replace />} />
             <Route path="/agents" element={<AgentsPage />} />
-            <Route path="/marketplace" element={<Marketplace />} />
+            <Route path="/marketplace" element={<MarketplacePage />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

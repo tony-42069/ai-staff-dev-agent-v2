@@ -92,7 +92,7 @@ const AgentsPage: React.FC = () => {
   };
 
   return (
-    <Box p={8} pt={24} pl={72}>
+    <Box p={8}>
       <Flex justifyContent="space-between" alignItems="center" mb={6}>
         <Box>
           <Heading size="lg" mb={2}>
