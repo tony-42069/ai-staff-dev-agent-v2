@@ -1,11 +1,35 @@
-from sqlalchemy import Column, Integer, String, Boolean, Text, DateTime, Float, func, create_engine
+from sqlalchemy import Column, Integer, String, Boolean, Text, DateTime, Float, ForeignKey, create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 import os
 from datetime import datetime
+from passlib.context import CryptContext
+
+# Password context for hashing
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # Create Base class for declarative models
 Base = declarative_base()
+
+class User(Base):
+    __tablename__ = "users"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String(50), unique=True, index=True, nullable=False)
+    email = Column(String(100), unique=True, index=True, nullable=False)
+    hashed_password = Column(String(100), nullable=False)
+    full_name = Column(String(100), nullable=True)
+    is_active = Column(Boolean, default=True)
+    is_admin = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    def verify_password(self, plain_password):
+        return pwd_context.verify(plain_password, self.hashed_password)
+    
+    @staticmethod
+    def get_password_hash(password):
+        return pwd_context.hash(password)
 
 class Agent(Base):
     __tablename__ = "agents"

@@ -8,13 +8,24 @@ import {
   useColorModeValue,
   HStack,
   Text,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button,
+  Avatar,
+  Divider,
 } from '@chakra-ui/react';
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { MoonIcon, SunIcon, ChevronDownIcon } from '@chakra-ui/icons';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
 const Header: React.FC = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -40,12 +51,42 @@ const Header: React.FC = () => {
           </Text>
         </HStack>
 
-        <IconButton
-          aria-label={`Switch to ${colorMode === 'light' ? 'dark' : 'light'} mode`}
-          variant="ghost"
-          icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-          onClick={toggleColorMode}
-        />
+        <HStack spacing={4}>
+          <IconButton
+            aria-label={`Switch to ${colorMode === 'light' ? 'dark' : 'light'} mode`}
+            variant="ghost"
+            icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+            onClick={toggleColorMode}
+          />
+          
+          {user && (
+            <Menu>
+              <MenuButton
+                as={Button}
+                rightIcon={<ChevronDownIcon />}
+                variant="ghost"
+              >
+                <HStack>
+                  <Avatar
+                    size="sm"
+                    name={user.full_name || user.username}
+                    bg="blue.500"
+                    color="white"
+                  />
+                  <Text>{user.full_name || user.username}</Text>
+                </HStack>
+              </MenuButton>
+              <MenuList>
+                <Text px={3} py={2} fontSize="sm" fontWeight="bold" color="gray.500">
+                  {user.email}
+                </Text>
+                <Divider />
+                <MenuItem onClick={() => navigate('/settings')}>Settings</MenuItem>
+                <MenuItem onClick={logout}>Logout</MenuItem>
+              </MenuList>
+            </Menu>
+          )}
+        </HStack>
       </Flex>
     </Box>
   );

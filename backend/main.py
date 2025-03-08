@@ -5,7 +5,8 @@ import uvicorn
 from sqlalchemy.orm import Session
 
 from backend.db.models import create_tables, get_db
-from backend.api import agents, marketplace
+from backend.api import agents, marketplace, auth
+from backend.config import CORS_ORIGINS
 
 # Configure logging
 logging.basicConfig(
@@ -25,13 +26,14 @@ app = FastAPI(
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # For development; restrict in production
+    allow_origins=CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # Include routers
+app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
 app.include_router(agents.router, prefix="/api/agents", tags=["agents"])
 app.include_router(marketplace.router, prefix="/api", tags=["marketplace"])
 
